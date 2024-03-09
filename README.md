@@ -1,2 +1,2 @@
 # shootingstar
-we are drawing stars *marshmellow?
+we are drawing stars *marshy?
