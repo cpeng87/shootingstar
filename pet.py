@@ -6,6 +6,9 @@ class VirtualPet(tk.Tk):
     def __init__(self):
         super().__init__()
 
+        #hello?
+
+
         # Remove window decorations
         self.overrideredirect(True)
 
