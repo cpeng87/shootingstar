@@ -1,73 +1,9 @@
-# import tkinter as tk
-# from PIL import Image, ImageTk
-# import sys
-# import os
-
-# class VirtualPet(tk.Tk):
-#     def __init__(self):
-#         super().__init__()
-
-#         # Remove window decorations
-#         self.overrideredirect(True)
-
-#         # Set the window to be transparent
-#         self.attributes("-transparentcolor", "white")
-
-#         # Load the image for the pet
-#         self.pet_image = Image.open("C:\\Users\\17703\\OneDrive - Georgia Institute of Technology\\Documents\\mushRush\\images\\shroom\\sparky1.png")
-#         self.pet_image = ImageTk.PhotoImage(self.pet_image)
-
-#         # Set the window size based on the pet image size
-#         self.geometry(f"{self.pet_image.width() + 50}x{self.pet_image.height() + 50}")
-
-#         # Create a label to display the pet image
-#         self.pet_label = tk.Label(self, image=self.pet_image, bg='white')
-#         self.pet_label.pack()
-
-#         self.interact_button = tk.Button(self, text="A", command=self.interact_with_pet, bg='white')
-#         self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
-
-#         self.current_image_index = 0
-
-#         # Schedule updating the pet image
-#         self.update_pet_image()
-
-#     def interact_with_pet(self):
-#         # Implement interactions with the pet here
-#         # For demonstration, let's change the pet image when interacted
-#         sys.exit()
-#         return
-    
-#     def load_pet_images(self):
-#         pet_images = []
-#         # Provide the directory path where your pet animation frames are located
-#         animation_folder = "C:\\Users\\17703\\OneDrive - Georgia Institute of Technology\\Documents\\horizons\\animation_frames"
-#         for filename in sorted(os.listdir(animation_folder)):
-#             image_path = os.path.join(animation_folder, filename)
-#             image = Image.open(image_path)
-#             image = ImageTk.PhotoImage(image)
-#             pet_images.append(image)
-#         return pet_images
-
-#     def update_pet_image(self):
-#         # Update the pet image on the canvas
-#         self.canvas.itemconfig(self.pet_image_item, image=self.pet_images[self.current_image_index])
-
-#         # Increment the current image index
-#         self.current_image_index = (self.current_image_index + 1) % len(self.pet_images)
-
-#         # Schedule the next update after a certain delay (in milliseconds)
-#         self.after(100, self.update_pet_image)
-
-# if __name__ == "__main__":
-#     app = VirtualPet()
-#     app.mainloop()
-
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
 
 class VirtualPet(tk.Tk):
+
     def __init__(self):
         super().__init__()
 
@@ -84,12 +20,10 @@ class VirtualPet(tk.Tk):
         self.attributes("-transparentcolor", "white")
 
         # Load the image for the pet
-        self.pet_images = self.load_pet_images()
+        self.state = "idle"
+        self.pet_images = self.load_pet_images(self.state)
         self.current_image_index = 0
         self.pet_image = self.pet_images[self.current_image_index]
-        
-        # Set the window size based on the pet image size //make window size = desktop size
-        #self.geometry(f"{self.pet_image.width()}x{self.pet_image.height()}")
 
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
@@ -102,6 +36,9 @@ class VirtualPet(tk.Tk):
         self.canvas.bind("<Button-1>", self.start_drag)
         self.canvas.bind("<B1-Motion>", self.dragging)
 
+        self.interact_button = tk.Button(self, text="Interact", command=self.interact_with_pet, bg='white')
+        self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+
         # Schedule updating the pet image
         self.update_pet_image()
 
@@ -112,20 +49,31 @@ class VirtualPet(tk.Tk):
         self.bind
 
 
-    def load_pet_images(self):
+    def interact_with_pet(self):
+        self.state = "happy"
+        self.pet_images = self.load_pet_images(self.state)
+        self.current_image_index = 0
+        print("Trying to be happy...")
+        return
+
+    def load_pet_images(self, name):
         pet_images = []
         # Provide the directory path where your pet animation frames are located
         current_directory = os.path.dirname(__file__)
 
         # Navigate to the images folder using the relative path
-        animation_folder = os.path.join(current_directory, "animation_frames")
+        animation_folder = os.path.join(current_directory, "animation_frames", name)
         # animation_folder = "\\animation_frames"
         for filename in sorted(os.listdir(animation_folder)):
             image_path = os.path.join(animation_folder, filename)
             image = Image.open(image_path)
-            image = ImageTk.PhotoImage(image)
+            new_width = 150
+            new_height = 150
+            resized_image = image.resize((new_width, new_height))
+            image = ImageTk.PhotoImage(resized_image)
             pet_images.append(image)
         return pet_images
+
 
     def update_pet_image(self):
         # Update the pet image on the canvas
@@ -135,11 +83,8 @@ class VirtualPet(tk.Tk):
         # Increment the current image index
         self.current_image_index = (self.current_image_index + 1) % len(self.pet_images)
 
-        # Move the pet image
-        # Example: Move the pet image horizontally
-
         # Schedule the next update after a certain delay (in milliseconds)
-        self.after(200, self.update_pet_image)
+        self.after(150, self.update_pet_image)
 
     def start_drag(self, event):
         # Record the starting position of the mouse when dragging starts
