@@ -105,6 +105,13 @@ class VirtualPet(tk.Tk):
         # Schedule updating the pet image
         self.update_pet_image()
 
+        # creates right click pop-up, floating menu
+        menu = tk.Menu(self, tearoff=0)
+        menu.add_command(label = "Exit", command = self.quit)
+        menu.add_separator()
+        self.bind
+
+
     def load_pet_images(self):
         pet_images = []
         # Provide the directory path where your pet animation frames are located
