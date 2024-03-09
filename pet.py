@@ -2,6 +2,8 @@ import tkinter as tk
 from PIL import Image, ImageTk
 import sys
 
+
+#Create class for VirtualPet
 class VirtualPet(tk.Tk):
     def __init__(self):
         super().__init__()
