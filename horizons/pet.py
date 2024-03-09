@@ -74,6 +74,12 @@ class VirtualPet(tk.Tk):
         # Remove window decorations
         self.overrideredirect(True)
 
+        #set window size to cover the desktop screen
+        width = self.winfo_screenwidth()
+        height = self.winfo_screenheight()
+        self.geometry("%dx%d" % (width, height))
+
+
         # Set the window to be transparent
         self.attributes("-transparentcolor", "white")
 
@@ -81,12 +87,12 @@ class VirtualPet(tk.Tk):
         self.pet_images = self.load_pet_images()
         self.current_image_index = 0
         self.pet_image = self.pet_images[self.current_image_index]
-
-        # Set the window size based on the pet image size
-        self.geometry(f"{self.pet_image.width() + 50}x{self.pet_image.height() + 50}")
+        
+        # Set the window size based on the pet image size //make window size = desktop size
+        #self.geometry(f"{self.pet_image.width()}x{self.pet_image.height()}")
 
         # Create a canvas to hold the pet image
-        self.canvas = tk.Canvas(self, width=self.pet_image.width(), height=self.pet_image.height(), bg='white', highlightthickness=0)
+        self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
         self.canvas.pack()
 
         # Add the pet image to the canvas
@@ -123,10 +129,10 @@ class VirtualPet(tk.Tk):
         self.current_image_index = (self.current_image_index + 1) % len(self.pet_images)
 
         # Move the pet image
-        self.canvas.move(self.pet_label, 1, 0)  # Example: Move the pet image horizontally
+        # Example: Move the pet image horizontally
 
         # Schedule the next update after a certain delay (in milliseconds)
-        self.after(100, self.update_pet_image)
+        self.after(200, self.update_pet_image)
 
     def start_drag(self, event):
         # Record the starting position of the mouse when dragging starts
@@ -148,4 +154,3 @@ class VirtualPet(tk.Tk):
 if __name__ == "__main__":
     app = VirtualPet()
     app.mainloop()
-
