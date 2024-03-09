@@ -12,6 +12,8 @@ class VirtualPet(tk.Tk):
         # Set the window to be transparent
         self.attributes("-transparentcolor", "white")
 
+        #hello
+
         # Load the image for the pet
         self.pet_image = Image.open("C:\\Users\\17703\\OneDrive - Georgia Institute of Technology\\Documents\\mushRush\\images\\shroom\\sparky1.png")
         self.pet_image = ImageTk.PhotoImage(self.pet_image)
