@@ -38,7 +38,8 @@ class VirtualPet(tk.Tk):
         self.curr_anim_speed = 200
 
         # 20min: 1,200,000
-        self.hunger_timer = 1200000
+        # self.hunger_timer = 1200000
+        self.hunger_timer = 4000 #30sec
         # self.hunger_timer = 10000
 
         # Create a canvas to hold the pet image
@@ -62,8 +63,8 @@ class VirtualPet(tk.Tk):
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Food", command=self.food)
+        self.menu.add_command(label="Sleep/Wake", command=self.sleep)
         self.menu.add_command(label="Exit", command=self.quit)
-        self.menu.add_command(label="Sleep", command=self.sleep)
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
