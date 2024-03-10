@@ -17,7 +17,7 @@ class VirtualPet(tk.Tk):
 
         # cursor_image = os.path.join(current_directory, "animation_frames", "smores.png")
         # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
-    
+
         # Remove window decorations
         self.overrideredirect(True)
 
@@ -37,6 +37,8 @@ class VirtualPet(tk.Tk):
         self.pet_image = self.pet_images[self.current_image_index]
         self.curr_anim_speed = 200
 
+        self.hunger_timer = 100000
+
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
         self.canvas.pack()
@@ -53,6 +55,7 @@ class VirtualPet(tk.Tk):
 
         # Schedule updating the pet image
         self.update_pet_image()
+        self.after(self.hunger_timer, self.update_hunger)
 
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
@@ -125,6 +128,13 @@ class VirtualPet(tk.Tk):
 
         # Schedule the next update after a certain delay (in milliseconds)
         self.after(self.curr_anim_speed, self.update_pet_image)
+
+    def update_hunger(self):
+        self.state = "hungry"
+        self.pet_images = self.load_pet_images(self.state)
+        self.current_image_index = 0
+        self.curr_anim_speed = 90
+        self.after(self.hunger_timer, self.update_hunger)
 
     def return_to_idle(self):
         self.state = "idle"
