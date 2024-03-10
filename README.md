@@ -16,3 +16,4 @@ But if you ever find yourself needing a break from your cosmic companion, fear n
 
 With Starshmello by your side, every journey becomes an enchanting experience, filled with joy, excitement, and endless memories. So why wait? Dive into the celestial world today and let Starshmello light up your screen with his boundless energy and charm!
 
+(Platform Dependent: Works on Windows)
