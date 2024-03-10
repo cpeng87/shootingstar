@@ -10,13 +10,13 @@ class VirtualPet(tk.Tk):
         # Remove window decorations
         self.overrideredirect(True)
 
-        #set window size to cover the desktop screen
+        # Set window size to cover the desktop screen
         width = self.winfo_screenwidth()
         height = self.winfo_screenheight()
         self.geometry("%dx%d" % (width, height))
 
         # Set the window to be transparent
-        self.attributes("-alpha", 0.5)
+        self.attributes("-transparentcolor", "white")
 
         # Load the image for the pet
         self.state = "idle"
@@ -33,39 +33,31 @@ class VirtualPet(tk.Tk):
         self.pet_label = self.canvas.create_image(0, 0, anchor=tk.NW, image=self.pet_image)
 
         # Bind mouse events to the canvas
-        self.canvas.bind("<Button-1>", self.start_drag)
+        self.canvas.bind("<Button-1>", self.interact_with_pet)
         self.canvas.bind("<B1-Motion>", self.dragging)
 
-        self.interact_button = tk.Button(self, text="Interact", command=self.interact_with_pet, bg='white')
-        self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
+        # self.interact_button = tk.Button(self, text="Interact", command=self.interact_with_pet, bg='white')
+        # self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
         # Schedule updating the pet image
-        self.update_pet_image()         
+        self.update_pet_image()
 
-        # creates right click pop-up, floating menu   
+        # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
-        self.menu.add_command(label = "Exit", command = self.quit)
+        self.menu.add_command(label="Exit", command=self.quit)
         self.menu.add_separator()
-
-        def popup(e):
-            self.menu.tk_popup(e.x, e.y)   
-
-        self.bind("<Button-3>", popup)
-
-
         self.bind("<Button-3>", self.popup)
-        
-        
+
         
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
-    def interact_with_pet(self):
+    def interact_with_pet(self, event):
         if (self.state == "idle"):
             self.state = "happy"
             self.pet_images = self.load_pet_images(self.state)
             self.current_image_index = 0
-            self.curr_anim_speed = 100
+            self.curr_anim_speed = 90
             print("Trying to be happy...")
         return
 
