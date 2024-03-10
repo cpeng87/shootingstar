@@ -9,10 +9,14 @@ class VirtualPet(tk.Tk):
         super().__init__()
 
         current_directory = os.path.dirname(__file__)
+        self.isSmore = False
 
         mixer.init()
         sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
         self.pet_sound = mixer.Sound(sound_path)
+
+        # cursor_image = os.path.join(current_directory, "animation_frames", "smores.png")
+        # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
     
         # Remove window decorations
         self.overrideredirect(True)
@@ -57,14 +61,25 @@ class VirtualPet(tk.Tk):
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
-    def food(self, e):
+    def food(self):
+        self.isSmore = True
+        self.configure(cursor="hand2")
         pass
 
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
     def interact_with_pet(self, event):
-        if (self.state == "idle"):
+        if (self.isSmore):
+            self.state = "eat"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 120
+            self.isSmore = False
+            self.configure(cursor='arrow')
+            # self.pet_sound.play()
+
+        elif (self.state == "idle"):
             self.state = "happy"
             self.pet_images = self.load_pet_images(self.state)
             self.current_image_index = 0
@@ -101,6 +116,12 @@ class VirtualPet(tk.Tk):
         self.current_image_index = (self.current_image_index + 1) % len(self.pet_images)
         if (self.state == "happy" and self.current_image_index == 0):
             self.return_to_idle()
+        elif (self.state == "eat" and self.current_image_index == 0):
+            self.state = "happy"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 90
+            self.pet_sound.play()
 
         # Schedule the next update after a certain delay (in milliseconds)
         self.after(self.curr_anim_speed, self.update_pet_image)
