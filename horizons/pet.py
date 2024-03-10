@@ -19,6 +19,7 @@ class VirtualPet(tk.Tk):
 
         # Set the window to be transparent
         self.attributes("-transparentcolor", "white")
+        self.attributes("-topmost", True)
 
         # Load the image for the pet
         self.state = "idle"
@@ -49,7 +50,7 @@ class VirtualPet(tk.Tk):
         self.menu.add_command(label="Exit", command=self.quit)
         self.menu.add_separator()
         self.bind("<Button-3>", self.popup)
-
+        self.grab_set()
         
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
