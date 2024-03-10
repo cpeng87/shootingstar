@@ -1,11 +1,13 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import os
+from pygame import mixer
 
 class VirtualPet(tk.Tk):
 
     def __init__(self):
         super().__init__()
+        mixer.init()
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -47,6 +49,7 @@ class VirtualPet(tk.Tk):
         self.menu.add_command(label = "Exit", command = self.quit)
         #self.menu.add_separator()
         self.bind("<Button-3>", self.popup)
+
 
 
 
