@@ -7,7 +7,10 @@ class VirtualPet(tk.Tk):
 
     def __init__(self):
         super().__init__()
+        
         mixer.init()
+        self.pet_sound = mixer.Sound("C:\\Users\\Kelly\\OneDrive\\Documents\\ShootingStar\\shootingstar\\horizons\\Sounds\\Happy.mp3")
+        
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -44,11 +47,9 @@ class VirtualPet(tk.Tk):
         # Schedule updating the pet image
         self.update_pet_image()
 
-<<<<<<< HEAD
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Exit", command=self.quit)
-        self.menu.add_separator()
         self.bind("<Button-3>", self.popup)
 
         
@@ -61,26 +62,8 @@ class VirtualPet(tk.Tk):
             self.pet_images = self.load_pet_images(self.state)
             self.current_image_index = 0
             self.curr_anim_speed = 90
+            self.pet_sound.play()
             print("Trying to be happy...")
-=======
-        # creates right click pop-up, floating menu
-        self.menu = tk.Menu(self, tearoff=0)
-        self.menu.add_command(label = "Exit", command = self.quit)
-        #self.menu.add_separator()
-        self.bind("<Button-3>", self.popup)
-
-
-
-
-    def popup(self, e):
-        self.menu.tk_popup(e.x, e.y)   
-
-    def interact_with_pet(self):
-        self.state = "happy"
-        self.pet_images = self.load_pet_images(self.state)
-        self.current_image_index = 0
-        print("Trying to be happy...")
->>>>>>> 9b447382053addeb3eaa91f1c5ca89f57f411c80
         return
 
     def load_pet_images(self, name):
