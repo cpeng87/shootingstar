@@ -7,10 +7,16 @@ class VirtualPet(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        
+
+        current_directory = os.path.dirname(__file__)
+        self.isSmore = False
+
         mixer.init()
-        self.pet_sound = mixer.Sound("C:\\Users\\Kelly\\OneDrive\\Documents\\ShootingStar\\shootingstar\\horizons\\Sounds\\Happy.mp3")
-        
+        sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
+        self.pet_sound = mixer.Sound(sound_path)
+
+        self.cursor_image = os.path.join(current_directory, "animation_frames", "smores.cur")
+        # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -31,6 +37,10 @@ class VirtualPet(tk.Tk):
         self.pet_image = self.pet_images[self.current_image_index]
         self.curr_anim_speed = 200
 
+        # 20min: 1,200,000
+        self.hunger_timer = 1200000
+        # self.hunger_timer = 10000
+
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
         self.canvas.pack()
@@ -47,18 +57,49 @@ class VirtualPet(tk.Tk):
 
         # Schedule updating the pet image
         self.update_pet_image()
+        self.after(self.hunger_timer, self.update_hunger)
 
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
+        self.menu.add_command(label="Food", command=self.food)
+        self.menu.add_command(label="Sleep", command=self.sleep)
         self.menu.add_command(label="Exit", command=self.quit)
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
+    def food(self):
+        self.isSmore = True
+        self.configure(cursor="star")
+        pass
+
+    def sleep(self):
+        if (self.state == "sleep"):
+            self.return_to_idle()
+        else:
+            self.state = "sleep"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 300
+
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
     def interact_with_pet(self, event):
-        if (self.state == "idle"):
+        if (self.state == "sleep"):
+            self.start_x = event.x
+            self.start_y = event.y
+            return
+        
+        if (self.isSmore):
+            self.state = "eat"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 120
+            self.isSmore = False
+            self.configure(cursor='arrow')
+            # self.pet_sound.play()
+
+        elif (self.state == "idle"):
             self.state = "happy"
             self.pet_images = self.load_pet_images(self.state)
             self.current_image_index = 0
@@ -70,10 +111,8 @@ class VirtualPet(tk.Tk):
 
     def load_pet_images(self, name):
         pet_images = []
-        # Provide the directory path where your pet animation frames are located
-        current_directory = os.path.dirname(__file__)
-
         # Navigate to the images folder using the relative path
+        current_directory = os.path.dirname(__file__)
         animation_folder = os.path.join(current_directory, "animation_frames", name)
         # animation_folder = "\\animation_frames"
         for filename in sorted(os.listdir(animation_folder)):
@@ -97,9 +136,22 @@ class VirtualPet(tk.Tk):
         self.current_image_index = (self.current_image_index + 1) % len(self.pet_images)
         if (self.state == "happy" and self.current_image_index == 0):
             self.return_to_idle()
+        elif (self.state == "eat" and self.current_image_index == 0):
+            self.state = "happy"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 90
+            self.pet_sound.play()
 
         # Schedule the next update after a certain delay (in milliseconds)
         self.after(self.curr_anim_speed, self.update_pet_image)
+
+    def update_hunger(self):
+        self.state = "hungry"
+        self.pet_images = self.load_pet_images(self.state)
+        self.current_image_index = 0
+        self.curr_anim_speed = 90
+        self.after(self.hunger_timer, self.update_hunger)
 
     def return_to_idle(self):
         self.state = "idle"
