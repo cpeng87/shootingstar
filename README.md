@@ -1,5 +1,7 @@
 # shootingstar
 
+video demo - https://drive.google.com/file/d/1bWBcoCLIl9aoJkHqcpAA-k9N8r7l9wo7/view?usp=sharing
+
 starshmello
 
 Embark on a celestial journey with Starshmello, your adorable digital companion! By simply running the pet.py file, you'll summon Starshmello to the top right corner of your screen, where he eagerly awaits your arrival, jumping up and down with excitement.
