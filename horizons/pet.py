@@ -44,7 +44,6 @@ class VirtualPet(tk.Tk):
         # Schedule updating the pet image
         self.update_pet_image()
 
-<<<<<<< HEAD
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Exit", command=self.quit)
@@ -62,26 +61,9 @@ class VirtualPet(tk.Tk):
             self.current_image_index = 0
             self.curr_anim_speed = 90
             print("Trying to be happy...")
-=======
-        # creates right click pop-up, floating menu
-        self.menu = tk.Menu(self, tearoff=0)
-        self.menu.add_command(label = "Exit", command = self.quit)
-        #self.menu.add_separator()
-        self.bind("<Button-3>", self.popup)
 
-
-
-
-    def popup(self, e):
-        self.menu.tk_popup(e.x, e.y)   
-
-    def interact_with_pet(self):
-        self.state = "happy"
-        self.pet_images = self.load_pet_images(self.state)
-        self.current_image_index = 0
-        print("Trying to be happy...")
->>>>>>> 9b447382053addeb3eaa91f1c5ca89f57f411c80
-        return
+        self.start_x = event.x
+        self.start_y = event.y
 
     def load_pet_images(self, name):
         pet_images = []
@@ -120,11 +102,6 @@ class VirtualPet(tk.Tk):
         self.state = "idle"
         self.curr_anim_speed = 200
         self.pet_images = self.load_pet_images(self.state)
-
-    def start_drag(self, event):
-        # Record the starting position of the mouse when dragging starts
-        self.start_x = event.x
-        self.start_y = event.y
 
     def dragging(self, event):
         # Calculate the distance moved by the mouse
