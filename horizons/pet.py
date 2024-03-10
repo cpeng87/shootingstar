@@ -40,7 +40,19 @@ class VirtualPet(tk.Tk):
         self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
         # Schedule updating the pet image
-        self.update_pet_image()
+        self.update_pet_image()        
+
+        # creates right click pop-up, floating menu -- still in progress   
+        self.menu = tk.Menu(self, tearoff=0)
+        self.menu.add_command(label = "Exit", command = self.quit)
+        self.menu.add_separator()
+
+        def popup(e):
+            self.menu.tk_popup(e.x, e.y)   
+
+        self.bind("<Button-3>", popup)
+
+
 
     def interact_with_pet(self):
         self.state = "happy"
