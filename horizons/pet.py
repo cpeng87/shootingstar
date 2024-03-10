@@ -15,8 +15,8 @@ class VirtualPet(tk.Tk):
         sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
         self.pet_sound = mixer.Sound(sound_path)
 
-        # cursor_image = os.path.join(current_directory, "animation_frames", "smores.png")
-        # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
+        cursor_image = os.path.join(current_directory, "animation_frames", "smores.gif")
+        self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -37,7 +37,9 @@ class VirtualPet(tk.Tk):
         self.pet_image = self.pet_images[self.current_image_index]
         self.curr_anim_speed = 200
 
-        self.hunger_timer = 100000
+        # 20min: 1,200,000
+        self.hunger_timer = 1200000
+        # self.hunger_timer = 10000
 
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
@@ -61,6 +63,7 @@ class VirtualPet(tk.Tk):
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Food", command=self.food)
         self.menu.add_command(label="Exit", command=self.quit)
+        self.menu.add_command(label="Sleep", command=self.sleep)
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
@@ -69,10 +72,24 @@ class VirtualPet(tk.Tk):
         self.configure(cursor="hand2")
         pass
 
+    def sleep(self):
+        if (self.state == "sleep"):
+            self.return_to_idle()
+        else:
+            self.state = "sleep"
+            self.pet_images = self.load_pet_images(self.state)
+            self.current_image_index = 0
+            self.curr_anim_speed = 300
+
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
     def interact_with_pet(self, event):
+        if (self.state == "sleep"):
+            self.start_x = event.x
+            self.start_y = event.y
+            return
+        
         if (self.isSmore):
             self.state = "eat"
             self.pet_images = self.load_pet_images(self.state)
