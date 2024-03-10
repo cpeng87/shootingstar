@@ -7,11 +7,13 @@ class VirtualPet(tk.Tk):
 
     def __init__(self):
         super().__init__()
-        
-        mixer.init()
-        self.pet_sound = mixer.Sound("C:\\Users\\Kelly\\OneDrive\\Documents\\ShootingStar\\shootingstar\\horizons\\Sounds\\Happy.mp3")
-        
 
+        current_directory = os.path.dirname(__file__)
+
+        mixer.init()
+        sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
+        self.pet_sound = mixer.Sound(sound_path)
+    
         # Remove window decorations
         self.overrideredirect(True)
 
@@ -70,10 +72,8 @@ class VirtualPet(tk.Tk):
 
     def load_pet_images(self, name):
         pet_images = []
-        # Provide the directory path where your pet animation frames are located
-        current_directory = os.path.dirname(__file__)
-
         # Navigate to the images folder using the relative path
+        current_directory = os.path.dirname(__file__)
         animation_folder = os.path.join(current_directory, "animation_frames", name)
         # animation_folder = "\\animation_frames"
         for filename in sorted(os.listdir(animation_folder)):
