@@ -42,7 +42,7 @@ class VirtualPet(tk.Tk):
         # Schedule updating the pet image
         self.update_pet_image()        
 
-        # creates right click pop-up, floating menu -- still in progress   
+        # creates right click pop-up, floating menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label = "Exit", command = self.quit)
         self.menu.add_separator()
