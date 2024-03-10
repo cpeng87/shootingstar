@@ -40,7 +40,7 @@ class VirtualPet(tk.Tk):
         # 20min: 1,200,000
         # self.hunger_timer = 1200000
         # self.hunger_timer = 10000
-        self.hunger_timer = 400000
+        self.hunger_timer = 40000
 
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
