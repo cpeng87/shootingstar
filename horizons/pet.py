@@ -22,6 +22,7 @@ class VirtualPet(tk.Tk):
 
         # Set the window to be transparent
         self.attributes("-transparentcolor", "white")
+        self.attributes("-topmost", True)
 
         # Load the image for the pet
         self.state = "idle"
@@ -51,7 +52,7 @@ class VirtualPet(tk.Tk):
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Exit", command=self.quit)
         self.bind("<Button-3>", self.popup)
-
+        self.grab_set()
         
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
@@ -63,8 +64,9 @@ class VirtualPet(tk.Tk):
             self.current_image_index = 0
             self.curr_anim_speed = 90
             self.pet_sound.play()
-            print("Trying to be happy...")
-        return
+
+        self.start_x = event.x
+        self.start_y = event.y
 
     def load_pet_images(self, name):
         pet_images = []
@@ -103,11 +105,6 @@ class VirtualPet(tk.Tk):
         self.state = "idle"
         self.curr_anim_speed = 200
         self.pet_images = self.load_pet_images(self.state)
-
-    def start_drag(self, event):
-        # Record the starting position of the mouse when dragging starts
-        self.start_x = event.x
-        self.start_y = event.y
 
     def dragging(self, event):
         # Calculate the distance moved by the mouse
