@@ -16,7 +16,7 @@ class VirtualPet(tk.Tk):
         self.pet_sound = mixer.Sound(sound_path)
 
         cursor_image = os.path.join(current_directory, "animation_frames", "smores.gif")
-        self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
+        # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -62,8 +62,8 @@ class VirtualPet(tk.Tk):
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Food", command=self.food)
-        self.menu.add_command(label="Exit", command=self.quit)
         self.menu.add_command(label="Sleep", command=self.sleep)
+        self.menu.add_command(label="Exit", command=self.quit)
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
