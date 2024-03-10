@@ -52,10 +52,14 @@ class VirtualPet(tk.Tk):
 
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
+        self.menu.add_command(label="Food", command=self.food)
         self.menu.add_command(label="Exit", command=self.quit)
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
+    def food(self, e):
+        pass
+
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
