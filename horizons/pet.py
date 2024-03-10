@@ -7,7 +7,10 @@ class VirtualPet(tk.Tk):
 
     def __init__(self):
         super().__init__()
+        
         mixer.init()
+        self.pet_sound = mixer.Sound("C:\\Users\\Kelly\\OneDrive\\Documents\\ShootingStar\\shootingstar\\horizons\\Sounds\\Happy.mp3")
+        
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -48,7 +51,6 @@ class VirtualPet(tk.Tk):
         # Create right-click pop-up menu
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label="Exit", command=self.quit)
-        self.menu.add_separator()
         self.bind("<Button-3>", self.popup)
         self.grab_set()
         
@@ -61,7 +63,7 @@ class VirtualPet(tk.Tk):
             self.pet_images = self.load_pet_images(self.state)
             self.current_image_index = 0
             self.curr_anim_speed = 90
-            print("Trying to be happy...")
+            self.pet_sound.play()
 
         self.start_x = event.x
         self.start_y = event.y
