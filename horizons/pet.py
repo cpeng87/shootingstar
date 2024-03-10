@@ -15,8 +15,8 @@ class VirtualPet(tk.Tk):
         sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
         self.pet_sound = mixer.Sound(sound_path)
 
-        cursor_image = os.path.join(current_directory, "animation_frames", "smores.gif")
-        self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
+        self.cursor_image = os.path.join(current_directory, "animation_frames", "smores.cur")
+        # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
 
         # Remove window decorations
         self.overrideredirect(True)
@@ -38,9 +38,9 @@ class VirtualPet(tk.Tk):
         self.curr_anim_speed = 200
 
         # 20min: 1,200,000
-        # self.hunger_timer = 1200000
-        self.hunger_timer = 4000 #30sec
+        # # self.hunger_timer = 1200000
         # self.hunger_timer = 10000
+        self.hunger_timer = 40000
 
         # Create a canvas to hold the pet image
         self.canvas = tk.Canvas(self, width=width, height=height, bg='white', highlightthickness=0)
@@ -70,7 +70,7 @@ class VirtualPet(tk.Tk):
         
     def food(self):
         self.isSmore = True
-        self.configure(cursor="hand2")
+        self.configure(cursor="star")
         pass
 
     def sleep(self):
