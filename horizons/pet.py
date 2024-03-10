@@ -15,7 +15,7 @@ class VirtualPet(tk.Tk):
         sound_path = os.path.join(current_directory, "Sounds", "Happy.mp3")
         self.pet_sound = mixer.Sound(sound_path)
 
-        cursor_image = os.path.join(current_directory, "animation_frames", "smores.gif")
+        self.cursor_image = os.path.join(current_directory, "animation_frames", "smores.cur")
         # self.custom_cursor_image = tk.PhotoImage(file=cursor_image)
 
         # Remove window decorations
@@ -69,7 +69,7 @@ class VirtualPet(tk.Tk):
         
     def food(self):
         self.isSmore = True
-        self.configure(cursor="hand2")
+        self.configure(cursor="star")
         pass
 
     def sleep(self):
