@@ -53,7 +53,6 @@ class VirtualPet(tk.Tk):
 
 
 
-
     def popup(self, e):
         self.menu.tk_popup(e.x, e.y)   
 
