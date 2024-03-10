@@ -15,9 +15,8 @@ class VirtualPet(tk.Tk):
         height = self.winfo_screenheight()
         self.geometry("%dx%d" % (width, height))
 
-
         # Set the window to be transparent
-        self.attributes("-transparentcolor", "white")
+        self.attributes("-alpha", 0.5)
 
         # Load the image for the pet
         self.state = "idle"
@@ -40,20 +39,19 @@ class VirtualPet(tk.Tk):
         self.interact_button.place(relx=0.5, rely=0.9, anchor=tk.CENTER)
 
         # Schedule updating the pet image
-        self.update_pet_image()        
+        self.update_pet_image()         
 
-        # creates right click pop-up, floating menu -- still in progress   
+        # creates right click pop-up, floating menu   
         self.menu = tk.Menu(self, tearoff=0)
         self.menu.add_command(label = "Exit", command = self.quit)
-        self.menu.add_separator()
+        self.bind("<Button-3>", self.popup)
+        
+        
+        
+    def popup(self, e):
+        self.menu.tk_popup(e.x, e.y)   
 
-        def popup(e):
-            self.menu.tk_popup(e.x, e.y)   
-
-        self.bind("<Button-3>", popup)
-
-
-
+        
     def interact_with_pet(self):
         self.state = "happy"
         self.pet_images = self.load_pet_images(self.state)
